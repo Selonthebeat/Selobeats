@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selo beats</title>
+    
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Load Google Fonts (Inter for a clean, modern aesthetic) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Load Official PayPal JS SDK (Sandbox Mode with EUR currency) -->
+    <script src="https://www.paypal.com/sdk/js?client-id=test&currency=EUR"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #09090b; /* zinc-950 */
+            color: #f4f4f5; /* zinc-100 */
+        }
+        
+        /* Custom glow effect for the product card */
+        .glow-border {
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.15), inset 0 0 10px rgba(168, 85, 247, 0.05);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center py-12 px-4 sm:px-6 lg:px-8 selection:bg-purple-500 selection:text-white">
+
+    <main class="w-full max-w-2xl mx-auto space-y-8">
+        
+        <!-- Header Section -->
+        <header class="text-center space-y-4">
+            <div class="inline-block px-3 py-1 mb-4 rounded-full bg-purple-900/30 border border-purple-500/30 text-purple-400 text-sm font-semibold tracking-wider uppercase">
+                Limited Time Offer
+            </div>
+            <h1 class="text-4xl sm:text-5xl font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 pb-2">
+                @Prodselo
+            </h1>
+            <p class="text-zinc-400 text-lg max-w-xl mx-auto">
+            </p>
+        </header>
+
+        <!-- Product Card -->
+        <div class="bg-zinc-900 rounded-2xl p-6 sm:p-8 glow-border relative overflow-hidden">
+            <!-- Background Decoration -->
+            <div class="absolute -top-24 -right-24 w-48 h-48 bg-purple-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+            
+            <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 relative z-10">
+                
+                <!-- Product Artwork / Icon -->
+                <div class="w-32 h-32 flex-shrink-0 bg-gradient-to-br from-zinc-800 to-zinc-950 border border-zinc-700 rounded-xl shadow-lg flex items-center justify-center relative overflow-hidden">
+                    <!-- Vinyl/CD rings aesthetic -->
+                    <div class="absolute w-24 h-24 border border-zinc-700 rounded-full"></div>
+                    <div class="absolute w-16 h-16 border border-zinc-600 rounded-full"></div>
+                    <!-- Play icon center -->
+                    <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center pl-1 shadow-[0_0_15px_rgba(168,85,247,0.6)]">
+                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4l12 6-12 6z"></path></svg>
+                    </div>
+                </div>
+
+                <!-- Product Details -->
+                <div class="text-center sm:text-left flex-1">
+                    <h2 class="text-2xl font-bold text-white mb-2">The Ultimate Beat Bundle</h2>
+                    <ul class="text-zinc-400 space-y-1 mb-4 text-sm">
+                        <li class="flex items-center justify-center sm:justify-start gap-2">
+                            <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            10 Untagged WAV Leases
+                        </li>
+                        <li class="flex items-center justify-center sm:justify-start gap-2">
+                            <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            Trackout Stems Included
+                        </li>
+                        <li class="flex items-center justify-center sm:justify-start gap-2">
+                            <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            Instant Download
+                        </li>
+                    </ul>
+                    <div class="text-3xl font-black text-white">
+                        €10.00
+                        <span class="text-sm font-normal text-zinc-500 line-through ml-2">€24.99</span>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="border-zinc-800 my-6">
+
+            <!-- Payment Section -->
+            <div id="payment-section" class="w-full">
+                <p class="text-sm text-zinc-400 text-center mb-4">Secure checkout via PayPal</p>
+                <!-- PayPal Button Container -->
+                <div id="paypal-button-container" class="max-w-md mx-auto relative z-10"></div>
+                
+                <!-- Loading State (hidden by default) -->
+                <div id="loading-state" class="hidden flex flex-col items-center justify-center py-4">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500 mb-2"></div>
+                    <p class="text-zinc-400 text-sm">Processing transaction...</p>
+                </div>
+            </div>
+
+            <!-- Success / Download Section (Hidden by default) -->
+            <div id="success-section" class="hidden flex flex-col items-center text-center space-y-4 py-4 animate-[fadeIn_0.5s_ease-out]">
+                <div class="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mb-2 border border-green-500/50 shadow-[0_0_20px_rgba(34,197,94,0.3)]">
+                    <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                </div>
+                <h3 class="text-2xl font-bold text-white">Payment Successful!</h3>
+                <p class="text-zinc-400 text-sm max-w-sm">
+                    Thank you, <span id="buyer-name" class="font-bold text-zinc-200">Producer</span>. Your transaction is complete and your beats are ready.
+                </p>
+                
+                <a href="#download-link-placeholder.zip" download="Seloo_Beat_Bundle.zip" class="mt-4 w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold rounded-xl shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] transition-all transform hover:-translate-y-1">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    Download Vault File (.ZIP)
+                </a>
+                <p class="text-xs text-zinc-500 mt-2">File size: ~450MB</p>
+            </div>
+
+        </div>
+        
+        <!-- Footer -->
+        <footer class="text-center text-zinc-600 text-sm">
+            <p>&copy; 2026 Seloo Productions. All rights reserved.</p>
+        </footer>
+    </main>
+
+    <!-- Application Logic -->
+    <script>
+        // Custom keyframes for the success fade-in animation
+        tailwind.config = {
+            theme: {
+                extend: {
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const paypalContainer = document.getElementById('paypal-button-container');
+            const loadingState = document.getElementById('loading-state');
+            const successSection = document.getElementById('success-section');
+            const buyerNameSpan = document.getElementById('buyer-name');
+
+            if (typeof window.paypal === 'undefined') {
+                console.error("PayPal SDK failed to load.");
+                paypalContainer.innerHTML = '<p class="text-red-500 text-sm text-center">Failed to load payment system. Please disable ad-blockers and refresh.</p>';
+                return;
+            }
+
+            try {
+                window.paypal.Buttons({
+                    // Customize button styling to fit the dark theme
+                    style: {
+                        color:  'gold',
+                        shape:  'rect',
+                        label:  'checkout',
+                        height: 48
+                    },
+
+                    // Sets up the transaction when a payment button is clicked
+                    createOrder: function(data, actions) {
+                        return actions.order.create({
+                            purchase_units: [{
+                                description: "Seloo Vault Clearance - 10 Beat Bundle",
+                                amount: {
+                                    currency_code: "EUR",
+                                    value: "10.00" // The €10 price tag
+                                }
+                            }]
+                        });
+                    },
+
+                    // Finalize the transaction after payer approval
+                    onApprove: function(data, actions) {
+                        paypalContainer.classList.add('hidden');
+                        loadingState.classList.remove('hidden');
+
+                        return actions.order.capture().then(function(orderData) {
+                            console.log('Capture result', orderData);
+                            
+                            // Extract buyer's first name for a personalized touch
+                            const buyerName = orderData.payer.name.given_name;
+                            if(buyerName) {
+                                buyerNameSpan.innerText = buyerName;
+                            }
+
+                            // Hide the loading state and reveal the secure download section
+                            loadingState.classList.add('hidden');
+                            successSection.classList.remove('hidden');
+                        }).catch(function(err) {
+                            // Handle errors during capture
+                            console.error(err);
+                            loadingState.classList.add('hidden');
+                            paypalContainer.classList.remove('hidden');
+                            // Fallback to basic alert if custom UI fails
+                            window.alert('Something went wrong processing your payment. Please try again.'); 
+                        });
+                    },
+
+                    // Handle errors during the checkout process
+                    onError: function(err) {
+                        console.error('PayPal Checkout onError', err);
+                        // Fallback to basic alert if custom UI fails
+                        window.alert('An error occurred during checkout. Please refresh the page and try again.');
+                    }
+                }).render('#paypal-button-container');
+            } catch (error) {
+                console.error("Error rendering PayPal buttons:", error);
+                paypalContainer.innerHTML = '<p class="text-red-500 text-sm text-center">Payment module encountered an error. Please try again later.</p>';
+            }
+        });
+    </script>
+</body>
+</html>
